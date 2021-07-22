@@ -21,14 +21,14 @@ def BubbleSort(array,colors):
     # a) sorting inputed list
     # b) yielding states of process of sorting in form of a list. Each state yielded serves as a frame in animation.
     # c) closely related to b) yielding colors of columns
-    zmena=True
-    while zmena:    
-        zmena=False
+    change=True
+    while change:    
+        change=False
         for j in range(0,len(array)-1):
             if array[j]>array[j+1]:
 
                 array[j],array[j+1]=array[j+1],array[j]
-                zmena=True
+                change=True
 
             colors[j] = "crimson" # distinguishing selected column
             yield array,colors
