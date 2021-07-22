@@ -1,34 +1,42 @@
-"""Bubble sort vizualization"""
-
 import plotly.graph_objects as go
 import numpy as np
 from numpy import random
 
+# This animation is nothing else that bar chart graph that showing a list of the same values differently orderded each moment during the animation. 
+# These moments are called frames. Barchart needs x coordinates and y coordinates.
+
+# creating array to be sorted 
 N = 400
 x = np.arange(3,N,8)
 y = [num+10*random.rand() for num in x]
-
 random.shuffle(y)
-colors = ["black",]*len(x)
 
-def BubbleSort(pole):
-    
+
+# colors of columns
+colors_init = ["black",]*len(x) 
+colors_sorting = ["grey",]*len(x)
+
+def BubbleSort(array,colors):
+    # Function does three things: 
+    # a) sorting inputed list
+    # b) yielding states of process of sorting in form of a list. Each state yielded serves as a frame in animation.
+    # c) closely related to b) yielding colors of columns
     zmena=True
     while zmena:    
         zmena=False
-        for j in range(0,len(pole)-1):
-            if pole[j]>pole[j+1]:
+        for j in range(0,len(array)-1):
+            if array[j]>array[j+1]:
 
-                pole[j],pole[j+1]=pole[j+1],pole[j]
+                array[j],array[j+1]=array[j+1],array[j]
                 zmena=True
 
-            colors = ["grey",]*len(pole)
-            colors[j] = "crimson"
-            yield pole,colors
+            colors[j] = "crimson" # distinguishing selected column
+            yield array,colors
+            colors[j] = "grey"  # changing color back
        
-    # sorted state            
-    colors = ["white",]*len(pole)    
-    yield pole,colors    
+    # sorted (last frame)               
+    colors = ["white",]*len(array)    
+    yield array,colors    
 
 def frame_args(duration):
     return {
@@ -59,7 +67,7 @@ sliders = [
 
 # Create figure
 fig = go.Figure(
-    data=[go.Bar(x=x, y=y,marker_color=colors,
+    data=[go.Bar(x=x, y=y,marker_color=colors_init,  # initial state
         marker_line_color='rgb(0,0,0)',marker_line_width=1.5),
     
 
@@ -95,7 +103,7 @@ fig = go.Figure(
 
             ), ],) 
 
-        for output in BubbleSort(y)
+        for output in BubbleSort(y,colors_sorting)
         ],
 
         
