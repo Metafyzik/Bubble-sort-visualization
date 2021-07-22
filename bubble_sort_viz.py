@@ -8,7 +8,7 @@ from numpy import random
 # creating array to be sorted 
 N = 400
 x = np.arange(3,N,8)
-y = [num+10*random.rand() for num in x]
+y = x.copy()
 random.shuffle(y)
 
 
